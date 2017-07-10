@@ -57,9 +57,7 @@ void TxPacket(uint8_t *Pkt,int len)
     setTXAddress(BaseStationAddr);
     CEHigh();
     while( (getStatus()&0x20) == 0); // wait for tx to complete
-   // CELow();
-   // PwrLow();
-   // TXEnLow();
+
 }
 uint8_t pkg[]="Hello World";
 int main()
@@ -74,12 +72,9 @@ int main()
     initNRF905();
     setTXAddress(BaseStationAddr);
     setRXAddress(BaseStationAddr);
-
     PwrHigh();
-
-
-// Set Frequency to 868MHz  
-    setChannel(0x76);
+// Set Frequency to 434.2MHz  
+    setChannel(0x76); // Channel 76
     setRange(0);
     setRXPower(0); // normal power level
     setTXPower(3);
@@ -91,36 +86,10 @@ int main()
     while(1)
 	{                       
         readRegisters(&nrf);             
-        //if (nrf.Status & 0x60) 
         if (DataReady()) {           
-            /*eputs("\r\n");
-            eputs("St: ");
-            printByte(nrf.Status);    
-            eputs(" 0:");
-            printByte(nrf.Register[0]);                
-            eputs(" 1:");
-            printByte(nrf.Register[1]);
-            eputs(" 2:");
-            printByte(nrf.Register[2]);
-            eputs(" 3:");
-            printByte(nrf.Register[3]);
-            eputs(" 4:");
-            printByte(nrf.Register[4]);
-            eputs(" 5:");
-            printByte(nrf.Register[5]);
-            eputs(" 6:");
-            printByte(nrf.Register[6]);
-            eputs(" 7:");
-            printByte(nrf.Register[7]);
-            eputs(" 8:");
-            printByte(nrf.Register[8]);
-            eputs(" 9:");
-            printByte(nrf.Register[9]);    
-            delay(2000000);*/
             readRXPayload(RxPkt,32);
             eputs(RxPkt);
             eputs("\r\n");
-           // delay(20000);
 
         }
         
